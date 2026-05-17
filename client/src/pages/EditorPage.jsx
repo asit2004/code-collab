@@ -9,6 +9,7 @@ import ChatPanel from '../components/ChatPanel';
 import UserList from '../components/UserList';
 import Toolbar from '../components/Toolbar';
 import OutputPanel from '../components/OutputPanel';
+import StdinPanel from '../components/StdinPanel';
 
 export default function EditorPage() {
   const { roomId } = useParams();
@@ -29,6 +30,8 @@ export default function EditorPage() {
   const [versions, setVersions] = useState([]);
   const [typingUsers, setTypingUsers] = useState(new Set());
   const [autoCompile, setAutoCompile] = useState(false);
+  const [stdin, setStdin] = useState('');
+  const [showStdin, setShowStdin] = useState(false);
   const typingTimeout = useRef(null);
   const isRemoteUpdate = useRef(false);
 
@@ -108,12 +111,12 @@ export default function EditorPage() {
     setIsExecuting(true);
     setOutput(null);
     try {
-      const res = await api.post('/execute', { code, language });
+      const res = await api.post('/execute', { code, language, stdin });
       setOutput(res.data);
     } catch (err) {
       setOutput({ output: err.response?.data?.error || 'Execution failed', isError: true });
     } finally { setIsExecuting(false); }
-  }, [code, language]);
+  }, [code, language, stdin]);
 
   const handleRestoreVersion = useCallback((versionCode) => {
     setCode(versionCode);
@@ -141,6 +144,8 @@ export default function EditorPage() {
         onRestoreVersion={handleRestoreVersion}
         autoCompile={autoCompile}
         onToggleAutoCompile={() => setAutoCompile(v => !v)}
+        showStdin={showStdin}
+        onToggleStdin={() => setShowStdin(v => !v)}
         username={user.username}
         onLeaveRoom={() => navigate('/')}
         onLogout={() => { logout(); navigate('/login'); }}
@@ -151,6 +156,13 @@ export default function EditorPage() {
 
         <div className="flex flex-col flex-1 overflow-hidden min-w-0">
           <CodeEditor code={code} language={language} onChange={handleCodeChange} />
+          {showStdin && (
+            <StdinPanel
+              value={stdin}
+              onChange={setStdin}
+              onClose={() => setShowStdin(false)}
+            />
+          )}
           {showOutput && (
             <OutputPanel
               output={output || { output: '', isError: false }}

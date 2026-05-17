@@ -8,6 +8,7 @@ export default function Toolbar({
   showChat, showUsers, onToggleChat, onToggleUsers,
   versions, onRestoreVersion,
   autoCompile, onToggleAutoCompile,
+  showStdin, onToggleStdin,
   username, onLogout, onLeaveRoom,
 }) {
   const [copied, setCopied] = useState(false);
@@ -95,6 +96,19 @@ export default function Toolbar({
           title="Save (Ctrl+S)"
         >
           {isSaving ? '✓ Saved' : '💾 Save'}
+        </button>
+
+        {/* Stdin toggle */}
+        <button
+          onClick={onToggleStdin}
+          title={showStdin ? 'Hide stdin panel' : 'Provide program input (stdin)'}
+          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150
+            ${showStdin
+              ? 'bg-teal/10 border-teal/50 text-teal'
+              : 'bg-transparent border-overlay/50 text-muted hover:border-overlay hover:text-subtle'}`}
+        >
+          <span>⌨</span>
+          <span className="hidden sm:inline">Stdin</span>
         </button>
 
         {/* Run */}
