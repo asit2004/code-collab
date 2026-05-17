@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import styles from './Auth.module.css';
 
 export default function Register() {
   const { register } = useAuth();
@@ -13,45 +12,99 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    if (form.password.length < 6) return setError('Password must be at least 6 characters.');
     setLoading(true);
     try {
       await register(form.username, form.email, form.password);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed');
+      setError(err.response?.data?.error || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.card}>
-        <div className={styles.logo}>&#9889; CodeCollab</div>
-        <h1 className={styles.title}>Create account</h1>
-        <form onSubmit={handleSubmit} className={styles.form}>
-          {error && <div className={styles.error}>{error}</div>}
-          <div className={styles.field}>
-            <label>Username</label>
-            <input type="text" placeholder="coolcoder" value={form.username}
-              onChange={e => setForm(f => ({ ...f, username: e.target.value }))} required />
+    <div className="min-h-screen bg-mantle flex items-center justify-center p-4">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-mauve/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue/10 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative w-full max-w-md animate-fade-in">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 text-2xl font-bold text-text mb-2">
+            <span className="text-3xl">⚡</span>
+            <span>CodeCollab</span>
           </div>
-          <div className={styles.field}>
-            <label>Email</label>
-            <input type="email" placeholder="you@example.com" value={form.email}
-              onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
-          </div>
-          <div className={styles.field}>
-            <label>Password</label>
-            <input type="password" placeholder="min 6 characters" value={form.password}
-              onChange={e => setForm(f => ({ ...f, password: e.target.value }))} required minLength={6} />
-          </div>
-          <button type="submit" className={styles.submitBtn} disabled={loading}>
-            {loading ? 'Creating account...' : 'Create Account'}
-          </button>
-        </form>
-        <p className={styles.switch}>
-          Already have an account? <Link to="/login">Sign in</Link>
+          <p className="text-subtle text-sm">Real-time collaborative coding</p>
+        </div>
+
+        <div className="card p-8">
+          <h1 className="text-xl font-semibold text-text mb-6">Create your account</h1>
+
+          {error && (
+            <div className="flex items-start gap-2 bg-red/10 border border-red/30 rounded-lg px-3 py-2.5 mb-5 animate-slide-up">
+              <span className="text-red mt-0.5">⚠</span>
+              <p className="text-red text-sm">{error}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="block text-xs font-medium text-subtle uppercase tracking-wide">Username</label>
+              <input
+                type="text"
+                placeholder="coolcoder"
+                className="input-field"
+                value={form.username}
+                onChange={e => setForm(f => ({ ...f, username: e.target.value }))}
+                required
+                minLength={3}
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-medium text-subtle uppercase tracking-wide">Email</label>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                className="input-field"
+                value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                required
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="block text-xs font-medium text-subtle uppercase tracking-wide">Password</label>
+              <input
+                type="password"
+                placeholder="min. 6 characters"
+                className="input-field"
+                value={form.password}
+                onChange={e => setForm(f => ({ ...f, password: e.target.value }))}
+                required
+                minLength={6}
+              />
+            </div>
+
+            <button type="submit" className="btn-primary w-full py-2.5 mt-2" disabled={loading}>
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="w-4 h-4 border-2 border-mantle border-t-transparent rounded-full animate-spin" />
+                  Creating account...
+                </span>
+              ) : 'Create Account →'}
+            </button>
+          </form>
+        </div>
+
+        <p className="text-center text-subtle text-sm mt-5">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue hover:text-lavender transition-colors font-medium">
+            Sign in
+          </Link>
         </p>
       </div>
     </div>
