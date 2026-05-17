@@ -45,8 +45,8 @@ export default function Toolbar({
           className="flex items-center gap-1.5 border border-white/20 hover:border-blue/60 px-2 py-1 text-xs text-white/50 hover:text-blue transition-all duration-150 font-mono shrink-0"
           title="Copy room ID"
         >
-          <span className="text-muted">ID:</span>
-          <span>{roomId}</span>
+          <span className="hidden sm:inline text-muted">ID:</span>
+          <span className="hidden sm:inline">{roomId}</span>
           <span>{copied ? '✓' : '📋'}</span>
         </button>
       </div>

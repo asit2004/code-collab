@@ -26,7 +26,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 relative">
       <WebGLShader />
 
       <div className="relative w-full max-w-md z-10">

@@ -1,6 +1,6 @@
 export default function OutputPanel({ output, onClose, isCompiling, autoCompile }) {
   return (
-    <div className="h-52 bg-black border-t-2 border-white/20 flex flex-col shrink-0">
+    <div className="h-36 sm:h-52 bg-black border-t-2 border-white/20 flex flex-col shrink-0">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2 border-b border-white/20">
         <div className="flex items-center gap-2.5">

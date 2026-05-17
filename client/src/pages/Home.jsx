@@ -74,7 +74,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-12 relative z-10">
+      <main className="flex-1 max-w-6xl mx-auto w-full px-4 py-8 sm:py-12 relative z-10">
         {/* Hero */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 mb-6">
@@ -84,7 +84,7 @@ export default function Home() {
             </span>
             <p className="text-xs text-green font-mono">Real-time collaboration — no setup needed</p>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-bold text-white mb-4 leading-tight">
             Code together,{' '}
             <span className="text-red">in real time</span>
           </h1>
@@ -103,7 +103,7 @@ export default function Home() {
           <div className="border-2 border-white/10 bg-black/85 backdrop-blur-sm">
             <div className="grid lg:grid-cols-2">
               {/* Join / Create Card */}
-              <div id="action-card" className="p-6 border-r-2 border-white/10">
+              <div id="action-card" className="p-6 border-b-2 lg:border-b-0 lg:border-r-2 border-white/10">
                 {/* Tabs */}
                 <div className="flex border-2 border-white/20 mb-6">
                   {['join','create'].map(t => (
@@ -202,7 +202,9 @@ export default function Home() {
                 {FEATURES.map((f, i) => (
                   <div
                     key={i}
-                    className="p-6 border-b-2 border-r-2 border-white/10 last:border-r-0 hover:bg-white/5 transition-all duration-200 group"
+                    className={`p-5 border-b-2 border-white/10 hover:bg-white/5 transition-all duration-200 group
+                      ${i % 2 === 0 ? 'border-r-2' : ''}
+                      ${i >= 2 ? 'border-b-0' : ''}`}
                   >
                     <div className="text-2xl mb-2">{f.icon}</div>
                     <h3 className="text-sm font-bold text-white mb-1 font-mono">{f.title}</h3>
