@@ -34,7 +34,7 @@ export default function Toolbar({
   };
 
   return (
-    <div className="relative flex items-center justify-between px-3 h-12 bg-mantle border-b border-overlay/50 shrink-0 gap-2 z-50">
+    <div className="relative flex items-center justify-between px-2 sm:px-3 h-12 bg-mantle border-b border-overlay/50 shrink-0 gap-1 sm:gap-2 z-50">
       {/* Left */}
       <div className="flex items-center gap-2 min-w-0">
         <span className="text-blue font-bold text-sm shrink-0">⚡</span>
@@ -65,11 +65,11 @@ export default function Toolbar({
 
       {/* Right */}
       <div className="flex items-center gap-1.5">
-        {/* Auto-compile toggle */}
+        {/* Auto-compile toggle — hidden on xs */}
         <button
           onClick={onToggleAutoCompile}
           title={autoCompile ? 'Auto-compile ON' : 'Auto-compile OFF'}
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150
+          className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150
             ${autoCompile
               ? 'bg-yellow/10 border-yellow/50 text-yellow'
               : 'bg-transparent border-overlay/50 text-muted hover:border-overlay hover:text-subtle'}`}
@@ -78,10 +78,10 @@ export default function Toolbar({
           <span className="hidden sm:inline">{autoCompile ? 'Auto ON' : 'Auto'}</span>
         </button>
 
-        {/* Version history */}
+        {/* Version history — hidden on xs */}
         <button
           onClick={() => setShowVersions(v => !v)}
-          className={`btn-ghost text-xs px-2.5 py-1.5 ${showVersions ? 'border-blue/50 text-blue' : ''}`}
+          className={`hidden sm:flex btn-ghost text-xs px-2.5 py-1.5 ${showVersions ? 'border-blue/50 text-blue' : ''}`}
           title="Version history"
         >
           <span>🕒</span>
@@ -102,13 +102,13 @@ export default function Toolbar({
         <button
           onClick={onToggleStdin}
           title={showStdin ? 'Hide stdin panel' : 'Provide program input (stdin)'}
-          className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150
+          className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium border transition-all duration-150
             ${showStdin
               ? 'bg-teal/10 border-teal/50 text-teal'
               : 'bg-transparent border-overlay/50 text-muted hover:border-overlay hover:text-subtle'}`}
         >
           <span>⌨</span>
-          <span className="hidden sm:inline">Stdin</span>
+          <span className="hidden md:inline">Stdin</span>
         </button>
 
         {/* Run */}

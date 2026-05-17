@@ -27,7 +27,7 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
   const typingList = Array.from(typingUsers).filter(u => u !== currentUser);
 
   return (
-    <div className="flex flex-col w-72 shrink-0 bg-mantle border-l border-overlay/50">
+    <div className="fixed sm:relative top-12 sm:top-auto right-0 sm:right-auto bottom-0 sm:bottom-auto z-40 sm:z-auto flex flex-col w-72 shrink-0 bg-mantle border-l border-overlay/50 shadow-2xl sm:shadow-none">
       {/* Header */}
       <div className="panel-header">
         <span>Chat</span>

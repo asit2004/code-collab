@@ -25,8 +25,8 @@ export default function EditorPage() {
   const [isCompiling, setIsCompiling] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [roomInfo, setRoomInfo] = useState(null);
-  const [showChat, setShowChat] = useState(true);
-  const [showUsers, setShowUsers] = useState(true);
+  const [showChat, setShowChat] = useState(window.innerWidth >= 640);
+  const [showUsers, setShowUsers] = useState(window.innerWidth >= 640);
   const [versions, setVersions] = useState([]);
   const [typingUsers, setTypingUsers] = useState(new Set());
   const [autoCompile, setAutoCompile] = useState(false);
@@ -152,6 +152,14 @@ export default function EditorPage() {
       />
 
       <div className="flex flex-1 overflow-hidden">
+        {/* Mobile backdrop — closes both panels when tapped */}
+        {(showUsers || showChat) && (
+          <div
+            className="fixed inset-0 z-30 bg-black/50 sm:hidden"
+            onClick={() => { setShowUsers(false); setShowChat(false); }}
+          />
+        )}
+
         {showUsers && <UserList users={users} currentUser={user.username} />}
 
         <div className="flex flex-col flex-1 overflow-hidden min-w-0">

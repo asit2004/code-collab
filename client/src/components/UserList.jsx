@@ -1,6 +1,6 @@
 export default function UserList({ users, currentUser }) {
   return (
-    <div className="flex flex-col w-44 shrink-0 bg-mantle border-r border-overlay/50">
+    <div className="fixed sm:relative top-12 sm:top-auto left-0 sm:left-auto bottom-0 sm:bottom-auto z-40 sm:z-auto flex flex-col w-56 sm:w-44 shrink-0 bg-mantle border-r border-overlay/50 shadow-2xl sm:shadow-none">
       <div className="panel-header">
         <span>Users</span>
         <span className="bg-blue/20 text-blue text-xs px-1.5 py-0.5 rounded-full font-bold">
