@@ -27,11 +27,11 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
   const typingList = Array.from(typingUsers).filter(u => u !== currentUser);
 
   return (
-    <div className="fixed sm:relative top-12 sm:top-auto right-0 sm:right-auto bottom-0 sm:bottom-auto z-40 sm:z-auto flex flex-col w-72 shrink-0 bg-mantle border-l border-overlay/50 shadow-2xl sm:shadow-none">
+    <div className="fixed sm:relative top-12 sm:top-auto right-0 sm:right-auto bottom-0 sm:bottom-auto z-40 sm:z-auto flex flex-col w-72 shrink-0 bg-black border-l-2 border-white/20 shadow-2xl sm:shadow-none">
       {/* Header */}
       <div className="panel-header">
         <span>Chat</span>
-        <span className="text-muted text-xs">{messages.filter(m => m.type !== 'system').length} msgs</span>
+        <span className="text-muted text-xs font-mono">{messages.filter(m => m.type !== 'system').length} msgs</span>
       </div>
 
       {/* Messages */}
@@ -39,7 +39,7 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full gap-2 opacity-50">
             <span className="text-3xl">💬</span>
-            <p className="text-muted text-xs text-center">No messages yet.<br/>Say hello!</p>
+            <p className="text-muted text-xs text-center font-mono">No messages yet.<br/>Say hello!</p>
           </div>
         )}
 
@@ -47,7 +47,7 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
           if (msg.type === 'system') {
             return (
               <div key={msg.id || i} className="flex justify-center">
-                <span className="bg-surface/60 text-muted text-xs px-3 py-1 rounded-full">
+                <span className="bg-surface/60 text-muted text-xs px-3 py-1 font-mono">
                   {msg.message}
                 </span>
               </div>
@@ -56,18 +56,18 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
 
           const isMine = msg.username === currentUser;
           return (
-            <div key={msg.id || i} className={`flex flex-col gap-0.5 ${isMine ? 'items-end' : 'items-start'} animate-fade-in`}>
+            <div key={msg.id || i} className={`flex flex-col gap-0.5 ${isMine ? 'items-end' : 'items-start'}`}>
               {!isMine && (
-                <span className="text-xs text-blue font-medium px-1">{msg.username}</span>
+                <span className="text-xs text-blue font-bold px-1 font-mono">{msg.username}</span>
               )}
-              <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm leading-relaxed break-words
+              <div className={`max-w-[85%] px-3 py-2 text-sm leading-relaxed break-words
                 ${isMine
-                  ? 'bg-blue/20 text-text rounded-tr-sm border border-blue/20'
-                  : 'bg-surface text-text rounded-tl-sm border border-overlay/50'}`}
+                  ? 'bg-blue/20 border border-blue/30 text-white'
+                  : 'bg-surface border border-white/10 text-white'}`}
               >
                 {msg.message}
               </div>
-              <span className="text-xs text-muted px-1">{formatTime(msg.timestamp)}</span>
+              <span className="text-xs text-muted px-1 font-mono">{formatTime(msg.timestamp)}</span>
             </div>
           );
         })}
@@ -83,7 +83,7 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
                 />
               ))}
             </div>
-            <span className="text-xs text-yellow italic">
+            <span className="text-xs text-yellow italic font-mono">
               {typingList.join(', ')} {typingList.length === 1 ? 'is' : 'are'} typing...
             </span>
           </div>
@@ -92,7 +92,7 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSend} className="p-3 border-t border-overlay/50 flex gap-2">
+      <form onSubmit={handleSend} className="p-3 border-t border-white/20 flex gap-2">
         <input
           value={input}
           onChange={handleChange}
@@ -103,7 +103,7 @@ export default function ChatPanel({ messages, onSendMessage, onTyping, currentUs
         <button
           type="submit"
           disabled={!input.trim()}
-          className="shrink-0 w-9 h-9 flex items-center justify-center bg-blue hover:bg-lavender text-mantle rounded-lg font-bold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed active:scale-90"
+          className="shrink-0 w-9 h-9 flex items-center justify-center bg-blue hover:bg-blue/80 text-black font-bold transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed active:scale-90"
         >
           ↑
         </button>

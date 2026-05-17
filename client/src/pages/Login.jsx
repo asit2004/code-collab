@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { WebGLShader } from '../components/ui/web-gl-shader';
 
 export default function Login() {
   const { login } = useAuth();
@@ -24,29 +25,24 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-mantle flex items-center justify-center p-4">
-      {/* Background gradient blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-blue/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-mauve/10 rounded-full blur-3xl" />
-      </div>
+    <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 relative">
+      <WebGLShader />
 
-      <div className="relative w-full max-w-md animate-fade-in">
+      <div className="relative w-full max-w-md z-10">
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 text-2xl font-bold text-text mb-2">
-            <span className="text-3xl">⚡</span>
-            <span>CodeCollab</span>
+          <div className="inline-flex items-center gap-2 text-2xl font-bold text-white mb-2 font-mono tracking-tighter">
+            CodeCollab
           </div>
-          <p className="text-subtle text-sm">Real-time collaborative coding</p>
+          <p className="text-subtle text-sm font-mono">Real-time collaborative coding</p>
         </div>
 
         {/* Card */}
-        <div className="card p-8">
-          <h1 className="text-xl font-semibold text-text mb-6">Welcome back</h1>
+        <div className="bg-black/90 border-2 border-white/30 p-8 shadow-[8px_8px_0_0_rgba(255,255,255,0.1)]">
+          <h1 className="text-xl font-bold text-white mb-6 font-mono">Welcome back</h1>
 
           {error && (
-            <div className="flex items-start gap-2 bg-red/10 border border-red/30 rounded-lg px-3 py-2.5 mb-5 animate-slide-up">
+            <div className="flex items-start gap-2 bg-red/10 border-2 border-red/40 px-3 py-2.5 mb-5">
               <span className="text-red mt-0.5">⚠</span>
               <p className="text-red text-sm">{error}</p>
             </div>
@@ -54,7 +50,7 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-subtle uppercase tracking-wide">Email</label>
+              <label className="block text-xs font-bold text-white/60 uppercase tracking-wider font-mono">Email</label>
               <input
                 type="email"
                 placeholder="you@example.com"
@@ -66,7 +62,7 @@ export default function Login() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-subtle uppercase tracking-wide">Password</label>
+              <label className="block text-xs font-bold text-white/60 uppercase tracking-wider font-mono">Password</label>
               <input
                 type="password"
                 placeholder="••••••••"
@@ -80,7 +76,7 @@ export default function Login() {
             <button type="submit" className="btn-primary w-full py-2.5 mt-2" disabled={loading}>
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <span className="w-4 h-4 border-2 border-mantle border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin" />
                   Signing in...
                 </span>
               ) : 'Sign In →'}
@@ -88,9 +84,9 @@ export default function Login() {
           </form>
         </div>
 
-        <p className="text-center text-subtle text-sm mt-5">
+        <p className="text-center text-subtle text-sm mt-5 font-mono">
           No account?{' '}
-          <Link to="/register" className="text-blue hover:text-lavender transition-colors font-medium">
+          <Link to="/register" className="text-blue hover:text-blue/80 font-bold">
             Create one free
           </Link>
         </p>

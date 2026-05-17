@@ -1,30 +1,30 @@
 export default function OutputPanel({ output, onClose, isCompiling, autoCompile }) {
   return (
-    <div className="h-52 bg-crust border-t border-overlay/50 flex flex-col shrink-0 animate-slide-up">
+    <div className="h-36 sm:h-52 bg-black border-t-2 border-white/20 flex flex-col shrink-0">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-overlay/30">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-white/20">
         <div className="flex items-center gap-2.5">
-          <span className="text-subtle text-xs font-semibold">▶ OUTPUT</span>
+          <span className="text-subtle text-xs font-bold font-mono">▶ OUTPUT</span>
 
           {isCompiling && (
-            <span className="flex items-center gap-1.5 text-yellow text-xs">
+            <span className="flex items-center gap-1.5 text-yellow text-xs font-mono">
               <span className="w-1.5 h-1.5 rounded-full bg-yellow animate-pulse-slow" />
               compiling...
             </span>
           )}
 
           {!isCompiling && output && (
-            <span className={`text-xs px-2 py-0.5 rounded-full font-medium
+            <span className={`text-xs px-2 py-0.5 font-bold font-mono border-2
               ${output.isError
-                ? 'bg-red/15 text-red border border-red/30'
-                : 'bg-green/15 text-green border border-green/30'}`}
+                ? 'bg-red/15 text-red border-red/40'
+                : 'bg-green/15 text-green border-green/40'}`}
             >
               {output.status || (output.isError ? 'Error' : 'Accepted')}
             </span>
           )}
 
           {autoCompile && !isCompiling && (
-            <span className="text-xs px-2 py-0.5 rounded-full bg-blue/10 text-blue border border-blue/20">
+            <span className="text-xs px-2 py-0.5 bg-blue/10 text-blue border-2 border-blue/20 font-mono">
               auto
             </span>
           )}
@@ -32,7 +32,7 @@ export default function OutputPanel({ output, onClose, isCompiling, autoCompile 
 
         <button
           onClick={onClose}
-          className="text-muted hover:text-text text-xs px-1.5 py-0.5 hover:bg-surface/50 rounded transition-all duration-150"
+          className="text-white/40 hover:text-white text-xs px-1.5 py-0.5 hover:bg-white/5 transition-all duration-150 font-mono"
         >
           ✕ close
         </button>

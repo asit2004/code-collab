@@ -14,10 +14,10 @@ export default function CodeEditor({ code, language, onChange }) {
         language={MONACO_LANG_MAP[language] || 'javascript'}
         value={code}
         onChange={val => onChange(val ?? '')}
-        theme="vs-dark"
+        theme="hc-black"
         options={{
           fontSize: 14,
-          fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+          fontFamily: "'Space Mono', monospace",
           fontLigatures: true,
           minimap: { enabled: false },
           scrollBeyondLastLine: false,
