@@ -19,6 +19,34 @@ const WANDBOX_COMPILERS = {
   ruby:       { compiler: 'ruby-4.0.2' },
 };
 
+// Helper: call Wandbox with up to `maxRetries` attempts on transient errors
+const callWandbox = async (payload, maxRetries = 2) => {
+  let lastErr;
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      const response = await axios.post(WANDBOX_URL, payload, {
+        timeout: 20000,
+        headers: { 'Content-Type': 'application/json' },
+      });
+      return response;
+    } catch (err) {
+      lastErr = err;
+      const isTransient =
+        err.response?.status === 500 ||   // Wandbox OCI / capacity error
+        err.response?.status === 503 ||   // Service unavailable
+        err.code === 'ECONNRESET' ||
+        err.code === 'ECONNABORTED';
+
+      // Don't retry on timeout or non-transient errors
+      if (!isTransient || attempt === maxRetries) throw err;
+
+      // Wait 1s before retrying
+      await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+  throw lastErr;
+};
+
 // POST /api/execute
 router.post('/', async (req, res) => {
   try {
@@ -44,17 +72,13 @@ router.post('/', async (req, res) => {
       save: false,
     };
 
-    const response = await axios.post(WANDBOX_URL, payload, {
-      timeout: 20000,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await callWandbox(payload);
 
     const {
       status,
       program_output,
       program_error,
       compiler_error,
-      compiler_output,
     } = response.data;
 
     // Build readable output
@@ -82,6 +106,16 @@ router.post('/', async (req, res) => {
         error: 'Execution timed out (20s limit)',
         isError: true,
         status: 'Timeout',
+      });
+    }
+
+    // Wandbox OCI / capacity error — friendly message
+    const isOciError = err.response?.data && JSON.stringify(err.response.data).includes('OCI');
+    if (isOciError || err.response?.status === 500) {
+      return res.status(503).json({
+        error: 'Execution service is temporarily busy. Please try again in a moment.',
+        isError: true,
+        status: 'Service Busy',
       });
     }
 
